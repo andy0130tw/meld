@@ -153,9 +153,9 @@ try:
         libintl.textdomain(locale_domain)
         del libintl
     elif sys.platform == 'darwin':
-        gettext.install(locale_domain, locale_dir, names=["ngettext"])
-        gettext.textdomain(locale_domain)
-        gettext.bindtextdomain(locale_domain, locale_dir)
+        #locale.install(locale_domain, str(locale_dir))
+        locale.textdomain(locale_domain)
+        locale.bindtextdomain(locale_domain, str(locale_dir))
     else:
         locale.bindtextdomain(locale_domain, str(locale_dir))
         locale.bind_textdomain_codeset(locale_domain, 'UTF-8')
@@ -273,6 +273,7 @@ def check_requirements():
 
     try:
         for r in requirements:
+            print(f'Checking [{r!s}]...')
             r.check()
     except (AttributeError, ImportError, RuntimeError, ValueError):
         show_error_and_exit(_('Meld requires %s or higher.') % str(r))

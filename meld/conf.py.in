@@ -2,7 +2,7 @@
 import os
 import sys
 from pathlib import Path
-from Foundation import NSBundle
+#from Foundation import NSBundle
 
 __package__ = "meld"
 __version__ = "3.21.3"
