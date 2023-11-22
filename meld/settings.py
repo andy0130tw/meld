@@ -94,8 +94,13 @@ def load_settings_schema(schema_id):
             False,
         )
         schema = schema_source.lookup(schema_id, False)
+
+        import os.path
+        keyfile_path = os.path.join(os.path.dirname(__file__), '../pref.ini')
+        backend = Gio.keyfile_settings_backend_new(keyfile_path, '/')
+
         settings = Gio.Settings.new_full(
-            schema=schema, backend=None, path=None)
+            schema=schema, backend=backend, path=None)
     else:
         settings = Gio.Settings.new(schema_id)
     return settings
