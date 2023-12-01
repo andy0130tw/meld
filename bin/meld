@@ -133,8 +133,14 @@ except locale.Error as e:
     print("Couldn't set the locale: %s; falling back to 'C' locale" % e)
     locale.setlocale(locale.LC_ALL, 'C')
 gettext.textdomain(locale_domain)
-trans = gettext.translation(
-    locale_domain, localedir=str(locale_dir), fallback=True)
+
+_make_trans = lambda domain: gettext.translation(
+    domain, localedir=str(locale_dir), fallback=False)
+trans = _make_trans(locale_domain)
+trans_gtk = _make_trans('gtk30')
+trans_gtk.gettext = lambda x: trans_gtk.pgettext('Stock label', x)
+trans.add_fallback(trans_gtk)
+
 _ = meld.conf._ = trans.gettext
 meld.conf.ngettext = trans.ngettext
 
